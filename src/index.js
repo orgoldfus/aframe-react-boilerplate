@@ -3,19 +3,38 @@ import 'aframe-animation-component';
 import 'aframe-particle-system-component';
 import 'babel-polyfill';
 import {Entity, Scene} from 'aframe-react';
+import Selector from './selector'
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {color: 'red'};
+
+    this.state = {
+      selectorColor: 'white',
+      shouldSnow: false,
+      shouldAnimate: false,
+      animation: undefined
+    }
   }
 
-  changeColor() {
-    const colors = ['red', 'orange', 'yellow', 'green', 'blue'];
+  changeSelectorColor() {
+    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'white'];
     this.setState({
-      color: colors[Math.floor(Math.random() * colors.length)]
+      selectorColor: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+
+  toggleSnow() {
+    this.setState({
+      shouldSnow: !this.state.shouldSnow
+    });
+  }
+
+  toggleAnimation() {
+    this.setState({
+      shouldAnimate: !this.state.shouldAnimate
     });
   }
 
@@ -31,20 +50,41 @@ class App extends React.Component {
         <Entity primitive="a-light" type="ambient" color="#445451"/>
         <Entity primitive="a-light" type="point" intensity="2" position="2 4 4"/>
         <Entity primitive="a-sky" height="2048" radius="30" src="#skyTexture" theta-length="90" width="2048"/>
-        <Entity particle-system={{preset: 'snow', particleCount: 2000}}/>
-        <Entity text={{value: 'Hello, A-Frame React!', align: 'center'}} position={{x: 0, y: 2, z: -1}}/>
+        {
+          this.state.shouldSnow && 
+          <Entity particle-system={{preset: 'snow', particleCount: 10000}} disabled/>
+        }
+        <Entity text={{value: 'Try Me!', align: 'center'}} position={{x: 0, y: 2, z: -2}}/>
 
-        <Entity id="box"
-          geometry={{primitive: 'box'}}
-          material={{color: this.state.color, opacity: 0.6}}
-          animation__rotate={{property: 'rotation', dur: 2000, loop: true, to: '360 360 360'}}
-          animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '1.1 1.1 1.1'}}
-          position={{x: 0, y: 1, z: -3}}
-          events={{click: this.changeColor.bind(this)}}>
-          <Entity animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '2 2 2'}}
-                  geometry={{primitive: 'box', depth: 0.2, height: 0.2, width: 0.2}}
-                  material={{color: '#24CAFF'}}/>
-        </Entity>
+        <Selector 
+          position={{x: 1.4, y: 1.5, z: -3}}
+          rotation={{x: 0, y: -20, z: 0}}
+          text="Change \nmy color"
+          color={this.state.selectorColor}
+          onClick={this.changeSelectorColor.bind(this)}
+        >
+        </Selector> 
+        <Selector 
+          position={{x: 0, y: 1.5, z: -3.2}}
+          rotation={{x: 0, y: 0, z: 0}}
+          text="Snow"
+          color="white"
+          onClick={this.toggleSnow.bind(this)}
+        >
+        </Selector>    
+        <Selector 
+          position={{x: -1.4, y: 1.5, z: -3}}
+          rotation={{x: 0, y: 20, z: 0}}
+          text="Dance"
+          color="white"
+          animation={
+              this.state.shouldAnimate ? 
+              {property: 'rotation', dur: 2000, loop: true, to: '360 360 360'} : 
+              undefined
+            }
+          onClick={this.toggleAnimation.bind(this)}
+        >
+        </Selector>
 
         <Entity primitive="a-camera">
           <Entity primitive="a-cursor" animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 150}}/>
