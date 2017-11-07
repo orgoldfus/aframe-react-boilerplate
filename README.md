@@ -1,6 +1,6 @@
 ## WebVR Hello World
 
-This is a hello-world virtual reality experiences build with
+This hello-world virtual reality experiences was built with
 [A-Frame](https://aframe.io) and React with
 [aframe-react](https://github.com/ngokevin/aframe-react).
 
