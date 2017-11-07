@@ -19,9 +19,14 @@ class App extends React.Component {
   }
 
   changeSelectorColor() {
-    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'white'];
+    const colors = ['red', 'orange', 'green', 'yellow', 'blue', 'white'];
+    let nextColorIndex = Math.floor(Math.random() * colors.length)
+    if(colors[nextColorIndex] === this.state.selectorColor) {
+      nextColorIndex = (nextColorIndex + 1) % colors.length
+    }
+
     this.setState({
-      selectorColor: colors[Math.floor(Math.random() * colors.length)]
+      selectorColor: colors[nextColorIndex]
     });
   }
 
@@ -41,8 +46,8 @@ class App extends React.Component {
     return (
       <Scene>
         <a-assets>
-          <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg"/>
-          <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg"/>
+          <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg" alt='floor'/>
+          <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg" alt='sky'/>
         </a-assets>
 
         <Entity primitive="a-plane" src="#groundTexture" rotation="-90 0 0" height="100" width="100"/>
@@ -61,16 +66,14 @@ class App extends React.Component {
           text="Change \nmy color"
           color={this.state.selectorColor}
           onClick={this.changeSelectorColor.bind(this)}
-        >
-        </Selector> 
+        />
         <Selector 
           position={{x: 0, y: 1.5, z: -3.2}}
           rotation={{x: 0, y: 0, z: 0}}
           text="Snow"
           color="white"
           onClick={this.toggleSnow.bind(this)}
-        >
-        </Selector>    
+        />
         <Selector 
           position={{x: -1.4, y: 1.5, z: -3}}
           rotation={{x: 0, y: 20, z: 0}}
@@ -82,11 +85,10 @@ class App extends React.Component {
               undefined
             }
           onClick={this.toggleAnimation.bind(this)}
-        >
-        </Selector>
+        />
 
         <Entity primitive="a-camera">
-          <Entity primitive="a-cursor" animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 150}}/>
+          <Entity primitive="a-cursor" fuse={true} />
         </Entity>
       </Scene>
     );
