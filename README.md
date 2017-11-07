@@ -1,10 +1,10 @@
-## aframe-react-boilerplate
+## WebVR Hello World
 
-Boilerplate for building virtual reality experiences with
+This is a hello-world virtual reality experiences build with
 [A-Frame](https://aframe.io) and React with
 [aframe-react](https://github.com/ngokevin/aframe-react).
 
-![aframe-react-boilerplate](https://cloud.githubusercontent.com/assets/674727/24401414/286adeec-1369-11e7-8c41-22810d22d8d0.png)
+![webvr-hello-world](https://user-images.githubusercontent.com/4867932/32486606-ccfd4a70-c3af-11e7-85c1-05e5fbbce48c.png)
 
 ### Installation
 
