@@ -88,7 +88,9 @@ class App extends React.Component {
         />
 
         <Entity primitive="a-camera">
-          <Entity primitive="a-cursor" fuse={true} />
+          {/* <Entity primitive="a-cursor" fuse={true} /> */}
+          <Entity laser-controls="hand: left" />
+          <Entity laser-controls="hand: right" />
         </Entity>
       </Scene>
     );
